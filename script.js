@@ -145,4 +145,137 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+    /* ==================================
+          ACTIVITY LIGHTBOX
+    =================================== */
+    const activityCards = document.querySelectorAll(".activity-card");
+    const activityLightbox = document.getElementById("activity-lightbox");
+    const activityLightboxImg = document.getElementById("activity-lightbox-img");
+    const activityLightboxClose = document.getElementById("activity-lightbox-close");
+    const activityLightboxNext = document.getElementById("activity-lightbox-next");
+    const activityLightboxPrev = document.getElementById("activity-lightbox-prev");
+
+    let currentActivityIndex = 0;
+    // We capture the image src inside .activity-card
+    const activityImages = Array.from(document.querySelectorAll(".activity-card .activity-img")).map(img => img.src);
+
+    const updateActivityLightboxImage = (index) => {
+        activityLightboxImg.src = activityImages[index];
+    };
+
+    activityCards.forEach((card, index) => {
+        card.addEventListener("click", () => {
+            currentActivityIndex = index;
+            updateActivityLightboxImage(currentActivityIndex);
+            activityLightbox.classList.add("active");
+            document.body.style.overflow = "hidden"; // Prevent background scroll
+        });
+    });
+
+    // Next image
+    if (activityLightboxNext) {
+        activityLightboxNext.addEventListener("click", (e) => {
+            e.stopPropagation(); // Prevent closing lightbox when clicking on the wrapper
+            currentActivityIndex = (currentActivityIndex + 1) % activityImages.length;
+            updateActivityLightboxImage(currentActivityIndex);
+        });
+    }
+
+    // Previous image
+    if (activityLightboxPrev) {
+        activityLightboxPrev.addEventListener("click", (e) => {
+            e.stopPropagation(); // Prevent closing lightbox
+            currentActivityIndex = (currentActivityIndex - 1 + activityImages.length) % activityImages.length;
+            updateActivityLightboxImage(currentActivityIndex);
+        });
+    }
+
+    // Close lightbox
+    const closeActivityLightbox = () => {
+        activityLightbox.classList.remove("active");
+        document.body.style.overflow = "auto";
+        // Add a slight delay to clear the src so the transition finishes before image jumps
+        setTimeout(() => { activityLightboxImg.src = ""; }, 300);
+    };
+
+    if (activityLightboxClose) {
+        activityLightboxClose.addEventListener("click", closeActivityLightbox);
+    }
+
+    // Close on clicking outside image
+    if (activityLightbox) {
+        activityLightbox.addEventListener("click", (e) => {
+            if (e.target === activityLightbox) {
+                closeActivityLightbox();
+            }
+        });
+    }
+
+    // ----------------------------------------------------
+    // 6. Video Lightbox
+    // ----------------------------------------------------
+    const videoCards = document.querySelectorAll(".video-card");
+    const videoLightbox = document.getElementById("video-lightbox");
+    const videoLightboxContent = document.getElementById("video-lightbox-content");
+    const videoLightboxClose = document.getElementById("video-lightbox-close");
+    const videoLightboxPrev = document.getElementById("video-lightbox-prev");
+    const videoLightboxNext = document.getElementById("video-lightbox-next");
+
+    let currentVideoIndex = 0;
+    const videoSources = Array.from(videoCards).map(card => {
+        const source = card.querySelector("source");
+        return source ? source.src : "";
+    }).filter(src => src !== "");
+
+    const updateLightboxVideo = (index) => {
+        videoLightboxContent.src = videoSources[index];
+        videoLightboxContent.play(); // autoplay when navigating
+    };
+
+    videoCards.forEach((card, index) => {
+        card.addEventListener("click", () => {
+            currentVideoIndex = index;
+            updateLightboxVideo(currentVideoIndex);
+            videoLightbox.classList.add("active");
+            document.body.style.overflow = "hidden"; // Prevent background scroll
+        });
+    });
+
+    if (videoLightboxNext) {
+        videoLightboxNext.addEventListener("click", (e) => {
+            e.stopPropagation(); // Prevent closing lightbox
+            currentVideoIndex = (currentVideoIndex + 1) % videoSources.length;
+            updateLightboxVideo(currentVideoIndex);
+        });
+    }
+
+    if (videoLightboxPrev) {
+        videoLightboxPrev.addEventListener("click", (e) => {
+            e.stopPropagation(); // Prevent closing lightbox
+            currentVideoIndex = (currentVideoIndex - 1 + videoSources.length) % videoSources.length;
+            updateLightboxVideo(currentVideoIndex);
+        });
+    }
+
+    const closeVideoLightbox = () => {
+        videoLightbox.classList.remove("active");
+        document.body.style.overflow = "auto";
+        videoLightboxContent.pause();
+        setTimeout(() => {
+            videoLightboxContent.src = ""; // clear src after transition
+        }, 300);
+    };
+
+    if (videoLightboxClose) {
+        videoLightboxClose.addEventListener("click", closeVideoLightbox);
+    }
+
+    if (videoLightbox) {
+        videoLightbox.addEventListener("click", (e) => {
+            if (e.target === videoLightbox) {
+                closeVideoLightbox();
+            }
+        });
+    }
+
 });
