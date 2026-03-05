@@ -364,43 +364,56 @@ strong {
     z-index: 1;
 }
 
-.hero-card {
-    position: relative;
+.hero-strip {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
     z-index: 2;
-    background: rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    padding: 40px 20px;
-    border-radius: var(--border-radius);
-    text-align: center;
-    width: 90%;
-    max-width: 600px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    color: #fff;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    padding: 15px 5%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.hero-strip-left {
+    display: flex;
+    align-items: center;
+}
+
+.hero-strip-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    text-align: right;
 }
 
 .hero-logo {
-    width: 80px;
-    height: 80px;
+    width: 65px;
+    height: 65px;
     border-radius: 50%;
-    margin: 0 auto 20px;
     object-fit: cover;
-    border: 3px solid #fff;
+    border: 2px solid #fff;
 }
 
 .hero-title {
-    font-size: 2rem;
+    font-size: 1.5rem;
     color: #fff;
-    margin-bottom: 10px;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    margin-bottom: 4px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
 }
 
 .hero-tagline {
-    font-size: 1.2rem;
-    font-weight: 600;
-    margin-bottom: 30px;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    font-size: 1rem;
+    font-weight: 500;
+    margin-bottom: 0;
+    color: var(--secondary-color);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
 }
 
 /* ==================================
@@ -452,15 +465,66 @@ strong {
 }
 
 /* ==================================
-         TEACHERS SECTION
+         VIDEO GALLERY SECTION
 =================================== */
-.teachers-grid {
+.video-grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 25px;
+    gap: 15px;
 }
 
-.teacher-card {
+.video-card {
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    position: relative;
+    box-shadow: var(--card-shadow);
+    background: #000;
+    aspect-ratio: 16 / 9;
+}
+
+.video-item {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.play-icon-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 4rem;
+    color: rgba(255, 255, 255, 0.8);
+    pointer-events: none;
+    text-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.video-card:hover .play-icon-overlay {
+    color: white;
+    transform: translate(-50%, -50%) scale(1.1);
+}
+
+/* ==================================
+         TEACHERS & STUDENTS SECTIONS
+=================================== */
+.teachers-grid,
+.students-grid,
+.smc-grid,
+.activities-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+.teacher-card,
+.student-card,
+.smc-card,
+.activity-card {
     background: var(--bg-white);
     border-radius: var(--border-radius);
     overflow: hidden;
@@ -469,29 +533,86 @@ strong {
     transition: transform var(--transition-speed) ease;
 }
 
-.teacher-card:hover {
+.activity-card {
+    cursor: pointer;
+}
+
+.student-card {
+    border: 1px solid #000;
+}
+
+.teacher-card:hover,
+.student-card:hover,
+.smc-card:hover,
+.activity-card:hover {
     transform: translateY(-2px);
 }
 
-.teacher-img-wrapper {
+.teacher-img-wrapper,
+.smc-img-wrapper,
+.activity-img-wrapper {
     width: 100%;
     aspect-ratio: 1 / 1;
     overflow: hidden;
     background: var(--bg-light);
 }
 
-.teacher-img {
+.student-stats-wrapper {
+    width: 100%;
+    background: var(--bg-light);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    padding: 20px 10px;
+}
+
+.stat-row {
+    font-size: 0.95rem;
+    color: var(--text-color);
+    display: flex;
+    justify-content: space-between;
+    width: 75%;
+}
+
+.st-center-row {
+    justify-content: center;
+    font-weight: bold;
+}
+
+.stat-row strong {
+    color: var(--text-color);
+}
+
+.total-row {
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    font-weight: bold;
+}
+
+.teacher-img,
+.smc-img,
+.activity-img {
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
 
-.teacher-info {
+.teacher-info,
+.student-info,
+.smc-info,
+.activity-info {
     padding: 20px;
 }
 
-.teacher-name {
-    font-size: 1.25rem;
+.teacher-name,
+.student-name,
+.smc-name,
+.activity-name {
+    font-size: 0.9rem;
+    /* Smaller font to fit 3 in a row on mobile */
     margin-bottom: 5px;
 }
 
@@ -500,6 +621,49 @@ strong {
     font-weight: 600;
     font-size: 0.95rem;
     margin-bottom: 12px;
+}
+
+/* ==================================
+             SMC TABLE
+=================================== */
+.smc-table-container {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    overflow-x: auto;
+    background: var(--bg-white);
+    border-radius: var(--border-radius);
+    box-shadow: var(--card-shadow);
+}
+
+.smc-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 400px;
+    text-align: left;
+}
+
+.smc-table th,
+.smc-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.smc-table th {
+    background-color: var(--bg-light);
+    color: var(--text-color);
+    font-weight: 700;
+}
+
+.smc-table tr:hover {
+    background-color: #fcfbf8;
+}
+
+.smc-table th:first-child,
+.smc-table td:first-child {
+    text-align: center;
+    width: 60px;
+    font-weight: bold;
 }
 
 .teacher-desc {
@@ -684,13 +848,24 @@ strong {
         grid-template-columns: repeat(3, 1fr);
     }
 
-    .gallery-grid {
+    .gallery-grid,
+    .video-grid {
         grid-template-columns: repeat(2, 1fr);
         gap: 20px;
     }
 
-    .teachers-grid {
-        grid-template-columns: repeat(2, 1fr);
+    .teachers-grid,
+    .students-grid,
+    .smc-grid,
+    .activities-grid {
+        gap: 20px;
+    }
+
+    .teacher-name,
+    .student-name,
+    .smc-name,
+    .activity-name {
+        font-size: 1.1rem;
     }
 
     .contact-grid {
@@ -698,7 +873,7 @@ strong {
     }
 
     .hero-title {
-        font-size: 2.8rem;
+        font-size: 1.8rem;
     }
 }
 
@@ -722,19 +897,30 @@ strong {
         color: #333;
     }
 
-    .gallery-grid {
+    .gallery-grid,
+    .video-grid {
         grid-template-columns: repeat(3, 1fr);
     }
 
-    .teachers-grid {
-        grid-template-columns: repeat(3, 1fr);
+    .teachers-grid,
+    .students-grid,
+    .smc-grid,
+    .activities-grid {
+        gap: 25px;
     }
 
-    .hero-card {
-        padding: 50px 40px;
+    .teacher-name,
+    .student-name,
+    .smc-name,
+    .activity-name {
+        font-size: 1.25rem;
+    }
+
+    .hero-strip {
+        padding: 20px 8%;
     }
 
     .hero-title {
-        font-size: 3.5rem;
+        font-size: 2rem;
     }
 }
